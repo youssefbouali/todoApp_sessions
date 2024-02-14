@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  h2 User Details
+  p#user
+   //p Username: #{user.name}
+   //p Email: #{user.email}
+   //p Age: #{user.age}
+	
+  script.
+      postData("/users/#{user._id}", "GET").then(data => {
+      
+        const user = JSON.parse(data);
+        const userList = document.getElementById('user');
+	    
+        userList.innerHTML = '';
+        
+        const div0 = document.createElement('div');
+        div0.textContent = ''+user.name+'';
+        userList.appendChild(div0);
+        
+        const div1 = document.createElement('div');
+        div1.textContent = ''+user.email+'';
+        userList.appendChild(div1);
+        
+        const div2 = document.createElement('div');
+        div2.textContent = ''+user.age+'';
+        userList.appendChild(div2);
+        
+        const br = document.createElement('br');
+        userList.appendChild(br);
+      });

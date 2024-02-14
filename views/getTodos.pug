@@ -1,0 +1,120 @@
+extends layout
+
+block content
+  h2 Todos Page
+  form(action="/todos" method="POST")
+    //label(for="title") Title:
+    input(type="text" name="title" id="title" placeholder="Title" required)
+    br
+    button(type="submit") Add
+  br
+	
+  script.
+    const form = document.querySelector('form');
+    function funcReturn (data){
+      if(data){
+        const todo = JSON.parse(data);
+        const todoList = document.getElementById('todos');
+        
+        const li = document.createElement('li');
+        li.id = todo._id;
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = "checkbox";
+        checkbox.name = todo._id;
+        checkbox.onclick = function() {
+            funncheck(this);
+        };
+        li.appendChild(checkbox);
+        
+        const link = document.createElement('a');
+        link.href = "/getTodo/"+todo._id;
+        link.textContent = ''+todo.title+'';
+        li.appendChild(link);
+        
+        const button = document.createElement('button');
+        button.type = "submit";
+        button.textContent = "🗑️";
+        button.onclick = function() {
+            funndelete(''+todo._id+'');
+        };
+        li.appendChild(button);
+        
+        todoList.appendChild(li);
+        
+        const br = document.createElement('br');
+        todoList.appendChild(br);
+		
+        document.querySelector('form #title').value = '';
+      }
+    }
+    onSubmitForm(form, funcReturn);
+	
+	
+  ul#todos
+    //each todo in todos
+    //  li(id=''+todo._id)
+    //   if todo.completed
+    //     input(type="checkbox" name=todo._id checked onclick="funncheck(this)")
+    //   else
+    //     input(type="checkbox" name=todo._id onclick="funncheck(this)")
+    //   a(href='/getTodo/' + todo._id)= todo.title
+    //   button(type="submit" onclick="funndelete('"+todo._id+"')" ) 🗑️
+    //  br
+	
+  script.
+      postData("/todos", "GET").then(data => {
+      
+      const todos = JSON.parse(data);
+      const todoList = document.getElementById('todos');
+
+      //todoList.innerHTML = '';
+
+      todos.forEach(todo => {
+        const li = document.createElement('li');
+        li.id = todo._id;
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = "checkbox";
+        checkbox.name = todo._id;
+        checkbox.checked = todo.completed;
+        checkbox.onclick = function() {
+            funncheck(this);
+        };
+        li.appendChild(checkbox);
+        
+        const link = document.createElement('a');
+        link.href = "/getTodo/"+todo._id;
+        link.textContent = ''+todo.title+'';
+        li.appendChild(link);
+        
+        const button = document.createElement('button');
+        button.type = "submit";
+        button.textContent = "🗑️";
+        button.onclick = function() {
+            funndelete(''+todo._id+'');
+        };
+        li.appendChild(button);
+        
+        todoList.appendChild(li);
+        
+        const br = document.createElement('br');
+        todoList.appendChild(br);
+      });
+    });
+	
+  script.
+    function funncheck(checkbox){
+      //alert(checkbox.name);
+      var Data = new Map();
+      Data.set('completed', checkbox.checked);
+      postData("/todos/"+checkbox.name, "PUT", Data);
+    }
+	
+    function funndelete(id){
+      //alert(id);
+      postData("/todos/"+id, "DELETE").then(data => {
+        const todoList = document.getElementById(id);
+        todoList.innerHTML = '';
+      })
+    }

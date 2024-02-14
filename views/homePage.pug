@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h2 Welcome to Todo App
+  if !session
+   a(href="/loginPage") Login
+  else
+   p Try it using 
+    a(href="/getTodos") /getTodos.

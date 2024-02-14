@@ -1,0 +1,43 @@
+extends layout
+
+block content
+  h2 Users Page
+  ul#users
+    //each user in users
+    //  li 
+    //   a(href='/getUser/' + user._id)= user.name
+    //     div= user.email
+    //     div= user.age
+    //   br
+	
+  script.
+      postData("/users", "GET").then(data => {
+      
+      const users = JSON.parse(data);
+      const userList = document.getElementById('users');
+
+      //userList.innerHTML = '';
+
+      users.forEach(user => {
+        const li = document.createElement('li');
+        li.id = user._id;
+        
+        const link = document.createElement('a');
+        link.href = "/getUser/"+user._id;
+        link.textContent = ''+user.name+'';
+        li.appendChild(link);
+        
+        const div1 = document.createElement('div');
+        div1.textContent = ''+user.email+'';
+        link.appendChild(div1);
+        
+        const div2 = document.createElement('div');
+        div2.textContent = ''+user.age+'';
+        link.appendChild(div2);
+        
+        userList.appendChild(li);
+        
+        const br = document.createElement('br');
+        userList.appendChild(br);
+      });
+    });

@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    title Todo App
+    link(rel='stylesheet', href='/style.css')
+    script(src="/app.js")
+  body
+    header
+      h1 Todo App
+    nav
+      ul
+        li: a(href='/homePage') Home
+        if !session
+          li: a(href='/loginPage') Login
+        if session
+          li: a(href='/getTodos') Todos
+        //if session
+        //  li: a(href='/createTodo') Create Todo
+        if session
+          li: a(href='/getUsers') Users
+        if !session
+          li: a(href='/createUser') Sign Up
+        //li: a(href='/updateUser') Update User
+        //li: a(href='/deleteUser') Delete User
+        if session
+          li: a(href='/logout') Logout
+    main
+      block content
+    footer
+      p © 2024 Todo App

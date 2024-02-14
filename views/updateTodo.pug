@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h2 Update Todo
+  form(action="/todos/"+todo._id method="PUT")
+    label(for="title") Title:
+    input(type="text" name="title" id="title" value=todo.title required)
+    br
+    //label(for="completed") Completed:
+    input(type="checkbox" name="completed" checked=todo.completed)
+    br
+    button(type="submit") Update Todo
+	
+  script.
+    const form = document.querySelector('form');
+    function funcReturn (data){
+      if(data){
+        window.location.href = "/getTodo/"+data._id;
+      }
+    }
+    onSubmitForm(form, funcReturn);

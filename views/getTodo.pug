@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  h2 Todo Details
+  p#todo
+  //p Title: #{todo.title}
+  //p Completed: #{todo.completed}
+	
+  script.
+      postData("/todos/#{todo._id}", "GET").then(data => {
+      
+        const todo = JSON.parse(data);
+        const todoList = document.getElementById('todo');
+	    
+        //todoList.innerHTML = '';
+        
+        const div0 = document.createElement('div');
+        div0.textContent = ''+todo.title+'';
+        todoList.appendChild(div0);
+        
+        const div1 = document.createElement('div');
+        div1.textContent = ''+todo.completed+'';
+        todoList.appendChild(div1);
+        
+        const br = document.createElement('br');
+        todoList.appendChild(br);
+      });

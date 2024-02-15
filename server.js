@@ -43,4 +43,4 @@ app.use((req,res)=>{
 
 
 
-app.listen(80,()=>console.log("localhost On port 3000"))
+app.listen(3000,()=>console.log("localhost On port 3000 . Go to /homePage"))

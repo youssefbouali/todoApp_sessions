@@ -10,7 +10,6 @@ function isJSON(str) {
 }
 
 
-// Function to post form data with authorization header
 function postData(api, getMethod, formData) {
     const token = localStorage.getItem('token');
     //if (!token) {

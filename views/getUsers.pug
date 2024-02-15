@@ -1,6 +1,10 @@
 extends layout
 
 block content
+  script.
+    if(!localStorage.getItem('token')){
+      window.location.href = "/loginPage";
+    }
   h2 Users Page
   ul#users
     //each user in users

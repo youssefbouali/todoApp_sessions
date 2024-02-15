@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  script.
+    if(localStorage.getItem('token')){
+      localStorage.removeItem('token');
+      window.location.href = "/loginPage";
+    }

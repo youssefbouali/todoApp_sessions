@@ -1,6 +1,10 @@
 extends layout
 
 block content
+  script.
+    if(localStorage.getItem('token')){
+      window.location.href = "/homePage";
+    }
   h2 Login
   form(action="/users/login", method="POST")
     //label(for="email") Email:

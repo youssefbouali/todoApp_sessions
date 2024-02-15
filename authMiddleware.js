@@ -12,14 +12,4 @@ const authMiddleware = (req, res, next) => {
     }
 }
 
-const authMiddlewareSession = (req, res, next) => {
-    if(req.session?.user){
-        req.userId=req.session.user
-        next();
-    } else {
-		res.redirect('/loginPage');
-        //res.send({error: "Not Authorized"})
-    }
-}
-
-module.exports = {authMiddleware,authMiddlewareSession}
+module.exports = {authMiddleware}

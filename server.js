@@ -41,6 +41,4 @@ app.use((req,res)=>{
     res.status(404).sendFile(__dirname + '/public/error.html')
 })
 
-
-
-app.listen(80,()=>console.log("localhost On port 3000"))
+app.listen(3000,()=>console.log("localhost On port 3000 . Go to /homePage"))

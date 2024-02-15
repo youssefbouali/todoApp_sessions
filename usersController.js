@@ -4,9 +4,11 @@ const bcrypt = require('bcrypt');
 
 const login=async (req,res)=>{
     const auth=req.headers["authorization"]
-    if(req.session?.user){
+    try{
+		const token=auth.split(" ")[1];
+        const data=jwt.verify(token, process.env.SECRET)
         res.send({error: "You are already logged in"})
-    } else {
+    }catch(e){
 		
     const data=req.body
     if(data.email && data.password){
@@ -25,8 +27,6 @@ const login=async (req,res)=>{
             {expiresIn:'1h'}
             )
 			
-			req.session.user=user._id
-			
 			res.send(token)
 			
 			
@@ -36,8 +36,8 @@ const login=async (req,res)=>{
 	})
     }
     else res.send({error: "Need Login and Password"})
-	
-	}
+        
+    }
 	
 	
         
@@ -64,15 +64,12 @@ const createUser=async (req,res)=>{
     bcrypt.hash(user.password, 10, async function(err, hash) {
         user.password=hash
         const userinfos = await User.create(user)
-		req.session.user=userinfos._id
 			
 			const token=jwt.sign(
             {userId:userinfos._id},
             process.env.SECRET,
             {expiresIn:'1h'}
             )
-			
-			req.session.user=userinfos._id
 			
 			res.send(token)
     });

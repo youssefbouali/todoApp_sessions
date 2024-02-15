@@ -3,20 +3,18 @@ const Todo = require('./todoModel');
 const User = require('./userModel');
 
 const login=async (req,res)=>{
-    const auth=req.headers["authorization"]
-    if(req.session?.user){
-        res.send({error: "You are already logged in"})
-    } else {
-		
     const data=req.body
     if(data.email && data.password){
     //console.log(data)
+	//const hash = require("crypto").createHash('sha1').update(data.email+":"+data.password).digest();
+	//const userIdGenerate = hash.slice(0, 12).toString('hex');
+		
     const user=await User.findOne({email:data.email})
     //console.log(user)
     bcrypt.compare(data.password,user.password,(err,result)=>{
         if (err) console.log(err)
 		if (result) {
-			//console.log(user.email)
+			//console.log(result)
 			//res.send(user)
 			
 			const token=jwt.sign(
@@ -24,20 +22,15 @@ const login=async (req,res)=>{
             process.env.SECRET,
             {expiresIn:'1h'}
             )
-			
-			req.session.user=user._id
-			
 			res.send(token)
 			
 			
 		} else {
-            return res.send({error: "Invalid credentials"});
+            return res.status(401).send('Invalid credentials');
         }
 	})
     }
-    else res.send({error: "Need Login and Password"})
-	
-	}
+    else res.send("Need Login and Password")
 	
 	
         

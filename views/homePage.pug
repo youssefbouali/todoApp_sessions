@@ -2,8 +2,30 @@ extends layout
 
 block content
   h2 Welcome to Todo App
-  if !session
-   a(href="/loginPage") Login
-  else
-   p Try it using 
-    a(href="/getTodos") /getTodos.
+  div#home
+  //if !session
+  // a(href="/loginPage") Login
+  //else
+  // p Try it using 
+  //  a(href="/getTodos") /getTodos.
+  script.
+    const home = document.getElementById('home');
+    if(localStorage.getItem('token')){
+    	
+    	const p = document.createElement('p');
+    	p.textContent = 'Try it using ';
+    	
+    	const link1 = document.createElement('a');
+    	link1.href = "/getTodos";
+    	link1.textContent = '/getTodos';
+    	p.appendChild(link1);
+    	home.appendChild(p);
+      
+    } else {
+    	
+    	const link1 = document.createElement('a');
+    	link1.href = "/loginPage";
+    	link1.textContent = 'login';
+    	home.appendChild(link1);
+      
+    }

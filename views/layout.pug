@@ -8,19 +8,22 @@ html
     header
       h1 Todo App
     nav
-      ul#ulnav
-        //li: a(href='/homePage') Home
-        //li: a(href='/loginPage') Login
-        //li: a(href='/getTodos') Todos
-        ////if session
-        ////  li: a(href='/createTodo') Create Todo
-        //li: a(href='/getUsers') Users
-        //li: a(href='/createUser') Sign Up
-        ////li: a(href='/updateUser') Update User
-        ////li: a(href='/deleteUser') Delete User
-	
-    script.
-      createHeader()
+      ul
+        li: a(href='/homePage') Home
+        if !session
+          li: a(href='/loginPage') Login
+        if session
+          li: a(href='/getTodos') Todos
+        //if session
+        //  li: a(href='/createTodo') Create Todo
+        if session
+          li: a(href='/getUsers') Users
+        if !session
+          li: a(href='/createUser') Sign Up
+        //li: a(href='/updateUser') Update User
+        //li: a(href='/deleteUser') Delete User
+        if session
+          li: a(href='/logout') Logout
     main
       block content
     footer
